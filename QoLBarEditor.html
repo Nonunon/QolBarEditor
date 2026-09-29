@@ -1873,7 +1873,7 @@ function renderStatus(){
       : h("span", null, "Open or drop your files to start. They stay in this browser."),
     h("span", {class: "spacer"}),
     h("span", {class: "faint status-hints"}, "Right-click for actions · Ctrl+Z undo · Ctrl+S save · Del delete · Ctrl+D duplicate · Ctrl+V import"),
-    creditLink());
+    creditLink(), sourceLink());
 }
 // Credit for the plugin this edits. Lives in the status bar (and start screen), so it stays out of fullscreen.
 function creditLink(){
@@ -1881,6 +1881,8 @@ function creditLink(){
     tip: "This editor is an unofficial fan tool. It is not affiliated with or endorsed by UnknownX7, the Dalamud team or Square Enix.\nFINAL FANTASY XIV © SQUARE ENIX. Game icons are loaded from xivapi.com."},
     "Unofficial editor for QoLBar by UnknownX7");
 }
+const SOURCE_URL = "https://github.com/Nonunon/QolBarEditor";
+const sourceLink = () => h("a", {class: "credit", href: SOURCE_URL, target: "_blank", rel: "noopener noreferrer", tip: "This editor's source code, free under the AGPL-3.0 license"}, "Source");
 // Where the loaded config came from, shown in the status bar
 function sourceText(){
   if (!S.doc) return "";
@@ -1963,7 +1965,8 @@ function renderWelcome(){
       h("div", {class: "help"}, "No-restart alternative: select a bar or shortcut here, click Copy import string, then paste it with QoLBar's own Import in game.")),
     h("div", {class: "help", style: {marginTop: "22px", textAlign: "center"}},
       "An unofficial editor for ", h("a", {href: "https://github.com/UnknownX7/QoLBar", target: "_blank", rel: "noopener noreferrer", style: {color: "var(--accent)"}}, "QoLBar"),
-      " by UnknownX7. Not affiliated with the plugin's author, the Dalamud team or Square Enix. Your files never leave this browser.")
+      " by UnknownX7. Not affiliated with the plugin's author, the Dalamud team or Square Enix. Your files never leave this browser.",
+      h("div", {style: {marginTop: "6px"}}, h("a", {href: SOURCE_URL, target: "_blank", rel: "noopener noreferrer", style: {color: "var(--accent)"}}, "Source on GitHub"), " · free under the AGPL-3.0 license"))
   ));
 }
 function renderMain(){

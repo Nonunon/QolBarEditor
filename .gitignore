@@ -1,0 +1,24 @@
+# Local tool settings
+.claude/
+.wrangler/
+
+# Personal files: your own configs, screenshots, notes
+.local/
+
+# Reference clone of the QoLBar plugin source
+.reference/
+
+# Cloudflare deploy: site copy, wrangler config and scripts
+deploy/
+
+# Any QoLBar or Dalamud configs dropped in by accident (the test fixture is the exception)
+*.json
+!test/fixture.QoLBar.json
+!package.json
+
+# OS and editor clutter
+Thumbs.db
+Desktop.ini
+.DS_Store
+.vscode/
+node_modules/
