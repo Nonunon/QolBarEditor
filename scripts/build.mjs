@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Assembles the website in dist/: the editor as index.html, plus the link-preview banner.
+// Assembles the website in dist/: the editor as index.html, plus the link-preview banner. It also gives it a little kiss.
 // Run by Cloudflare on every push to main (`npm run build`), or locally to check.
 import fs from "node:fs";
 
