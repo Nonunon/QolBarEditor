@@ -107,6 +107,8 @@ Number boxes work like Dalamud's drag fields: press and drag right to increase, 
 
 Keys: `Ctrl+S` save, `Ctrl+Z` / `Ctrl+Y` undo/redo, `Del` delete, `Ctrl+D` duplicate, `Esc` clear selection. Press `?` (or the ? button in the header) for the full list of keys and mouse actions, and a short tour of the editor. The tour is also offered once after the first file is opened.
 
+**Theme:** the editor comes in light and dark. It follows your system setting unless you pick one in the **?** menu (top right) or in **Settings > Appearance**; the choice is remembered in this browser. Only the editor's own interface changes: the screen preview, fullscreen game view and bar previews always use the game's colors and your Dalamud style. Both themes keep all text at a contrast of at least 4.5:1.
+
 **Review before saving:** Save first shows what will change compared with the last save (or the file as it was read): bars moved, renamed or restyled, shortcuts added, removed or edited (label, icon, command, hotkey...), condition sets, and plugin settings. Most items have Revert (one undo step each) and Show me. Clicking "Unsaved changes" in the status bar opens the same list. It can be turned off in the dialog.
 
 **Hotkeys, as QoLBar handles them:** a shortcut's hotkey only works while its bar is on screen, and every visible shortcut with that key fires. A bar's own hotkey opens that bar as a pie menu while held, whenever its condition set is true, even if the bar is hidden; tapping the key still runs a shortcut that shares it. The fullscreen preview runs shortcut hotkeys and notes pie hotkeys in the log (pie menus aren't drawn).

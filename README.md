@@ -19,6 +19,7 @@ Everything runs in your browser. Your files are never uploaded.
 - **Tricks.** Several bars lined up to look like one, and Enable / Disable buttons that swap with a plugin's state.
 - **Icon picker.** QoLBar's own icon tabs, search by name, and a cropper for game interface sheets.
 - **Safety.** A config check (broken links, clashing hotkeys), a review of every change before saving, undo for everything, and byte-identical saves.
+- **Light and dark themes.** Follows your system by default; pick one in the ? menu or Settings. The game preview always keeps the game's own colors.
 - **Import and export.** In-game import strings, bars from another QoLBar.json, and a readable JSON format.
 
 ## Getting started
