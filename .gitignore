@@ -8,7 +8,8 @@
 # Reference clone of the QoLBar plugin source
 .reference/
 
-# Cloudflare deploy: site copy, wrangler config and scripts
+# Built site (npm run build), and the old local deploy folder
+dist/
 deploy/
 
 # Any QoLBar or Dalamud configs dropped in by accident (the test fixture is the exception)

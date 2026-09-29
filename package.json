@@ -4,6 +4,7 @@
   "description": "Browser-based editor for the QoLBar Dalamud plugin's config",
   "license": "AGPL-3.0-or-later",
   "scripts": {
+    "build": "node scripts/build.mjs",
     "test": "node test.mjs"
   }
 }

@@ -39,6 +39,8 @@ npm test
 
 This runs round-trip checks against `test/fixture.QoLBar.json`. To check your own config: `node test.mjs path/to/QoLBar.json`.
 
+The site deploys itself: every push to `main` makes Cloudflare run `npm run build` (the editor becomes `dist/index.html`, next to the link-preview banner from `assets/`) and publish `dist/` with `wrangler.jsonc`.
+
 ## Credits
 
 QoLBar is made by UnknownX7. This is an unofficial fan tool, not affiliated with the plugin's author, the Dalamud team or Square Enix. Icons are loaded from [xivapi](https://xivapi.com/).
