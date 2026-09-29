@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Round-trip tests for the core logic embedded in QoLBarEditor.html.
+// Round-trip tests for the file format core (src/js/core.js).
 // Usage: node test.mjs [path-to-QoLBar.json]   (defaults to test/fixture.QoLBar.json; pass your own config to check it too)
 import fs from "node:fs";
 import vm from "node:vm";
 
-const html = fs.readFileSync(new URL("./QoLBarEditor.html", import.meta.url), "utf8");
-const core = html.slice(html.indexOf("/* ===== CORE-START"), html.indexOf("/* ===== CORE-END"));
+const core = fs.readFileSync(new URL("./src/js/core.js", import.meta.url), "utf8");
 const ctx = vm.createContext({console, structuredClone, TextEncoder, Blob, Response, CompressionStream, DecompressionStream, btoa, atob, Uint8Array, JSON, Number, Math, String, Object, Array, Set, Map, Error, parseInt, parseFloat});
 vm.runInContext(core + "\n;globalThis.API = {parseConfig, serialize, unwrapConfig, wrapConfig, exportString, importString, hotkeyName, parseHotkeyName, colorToHex, hexToColor, parseName, buildName, moveSet, removeSet, allShortcuts, isRaw, walkShortcuts, importFromDoc, setDependencies};", ctx);
 const A = ctx.API;

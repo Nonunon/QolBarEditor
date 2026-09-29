@@ -1,0 +1,55 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+/* The game preview. Always drawn in the game's own colors and the user's Dalamud style, whatever the editor theme. */
+/* screen preview */
+.left{width:min(470px,34vw)}
+.main>.main{min-width:0}
+.pvpanel{width:clamp(270px,24vw,380px);flex:none;border-left:1px solid var(--line);background:var(--panel);overflow:auto;padding:12px 14px 30px}
+.pvpanel .grid{grid-template-columns:96px 1fr;gap:8px 10px;margin-top:12px}
+.pv-host{position:relative;width:100%;border-radius:8px;overflow:hidden;border:1px solid var(--line2);background:#000;cursor:pointer}
+.pv-sets{margin-top:6px;display:flex;flex-direction:column;gap:7px}
+.gscreen{position:absolute;left:0;top:0;transform-origin:0 0;overflow:hidden;font-family:"Noto Sans JP","Noto Sans CJK JP","Segoe UI",system-ui,sans-serif;font-weight:500;color:#fff;user-select:none;
+  background:radial-gradient(ellipse at 70% 20%,rgba(255,236,190,.22),transparent 45%),linear-gradient(180deg,#2d4a66 0%,#5d7c93 38%,#9aa79a 52%,#4d5a3f 53%,#34402b 75%,#222a1c 100%)}
+.gscreen.bgimg{background-size:cover;background-position:center}
+.g-hud{position:absolute;border:1px solid rgba(255,255,255,.13);background:rgba(8,10,14,.42);border-radius:6px;color:rgba(255,255,255,.4);overflow:hidden}
+.g-hud.round{border-radius:50%}
+.g-hud .cap{position:absolute;left:.6em;top:.35em}
+.g-slot{position:absolute;border:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.35);border-radius:5px}
+.g-chat-lines{position:absolute;left:.8em;right:.8em;bottom:.6em;top:1.9em;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;font-size:.95em;line-height:1.4;color:#dfe6ee}
+.g-chat-lines .echo{color:#b7f3a6}
+.g-chat-lines .sys{color:#ffd88a}
+.g-chat-lines .cmd{color:#9fc2ff;font-family:var(--mono)}
+/* Dalamud Standard style (StyleModelV1) with QoLBar's overrides from BarUI.Draw:
+   FrameRounding 0, WindowRounding 0, Button rgba(.286,.286,.286,.9). Hover colors stay Dalamud's. */
+.g-bar{position:absolute;background:var(--win-bg,rgba(15,15,15,.93));box-sizing:border-box}
+.g-bar.nobg{background:transparent}
+.g-bar.peek{outline:var(--ow,2px) dashed rgba(255,215,120,.75);outline-offset:calc(var(--ow,2px) * -1)}
+.g-bar.ghost{opacity:.35}
+.g-bar.sel{outline:var(--ow,2px) solid var(--accent-fill);outline-offset:var(--ow,2px);z-index:5}
+.g-bar.slide{transition:transform .5s cubic-bezier(.25,1,.5,1)}
+.g-bar.undock-hide{opacity:0}
+.g-btn{position:absolute;display:flex;align-items:center;justify-content:center;background:rgba(73,73,73,.9);white-space:nowrap;overflow:hidden;cursor:pointer;box-sizing:border-box}
+.g-btn:hover{background:var(--btn-hov)}
+.g-btn:active{background:var(--btn-act)}
+.g-btn.clear{background:transparent}
+.g-btn.clear:hover{background:var(--btn-hov)}
+/* icon-only: ImGui fills the hover color behind unframed icons; framed icons get the game glow instead */
+.g-btn.clear.iconly{overflow:visible}
+.g-btn.clear.iconly:hover{background:var(--btn-hov)}
+.g-btn.clear.iconly:has(.framed):hover{background:transparent}
+.g-btn.dark{background:rgba(20,20,20,.94)}
+.g-btn.spacer,.g-btn.spacer:hover{background:transparent;cursor:default}
+.g-btn.flash{box-shadow:inset 0 0 0 999px rgba(255,255,255,.35)}
+.g-lbl{overflow:hidden;text-overflow:clip;padding:0 .2em}
+.g-icon{position:absolute;left:0;top:0}
+.modal.ip .g-icon{position:relative;flex:none}
+.g-icon-clip{position:absolute;inset:0;overflow:hidden;isolation:isolate;display:grid;place-items:center;font-size:.6em;color:#aaa}
+.g-icon-clip img{display:block;max-width:none}
+.g-icon .tint{position:absolute;inset:0;mix-blend-mode:multiply;pointer-events:none}
+.g-frame,.g-glow{position:absolute;pointer-events:none;background-repeat:no-repeat}
+.g-glow{opacity:0;mix-blend-mode:screen}
+.g-btn:hover .g-glow{opacity:.52}
+.g-pop{position:absolute;background:var(--pop-bg);border-radius:var(--pop-round,0);z-index:20}
+.g-pop.nobg{background:transparent}
+.g-tip{position:absolute;z-index:40;background:rgba(10,10,10,.96);border:1px solid #555;color:#fff;padding:.35em .6em;border-radius:4px;white-space:pre-line;pointer-events:none;max-width:40em}
+.g-tip .c{color:#9aa;font-family:var(--mono);font-size:.9em}
+.g-bar.editing,.g-btn.editing{outline:calc(2px / var(--fs-scale,1)) solid var(--accent-fill);outline-offset:calc(1px / var(--fs-scale,1));z-index:6}

@@ -1,0 +1,54 @@
+<!doctype html>
+<!-- QoLBar Editor. SPDX-License-Identifier: AGPL-3.0-or-later. See LICENSE. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QoLBar Editor</title>
+<meta name="description" content="Edit your FFXIV QoLBar bars, shortcuts and condition sets outside the game, with a pixel-accurate live preview. Runs entirely in your browser; your files never leave it.">
+<meta name="theme-color" content="#d9b45f">
+<meta name="color-scheme" content="dark light">
+<meta name="application-name" content="QoLBar Editor">
+<!-- Link previews (Discord, Slack, social sites) -->
+<link rel="canonical" href="https://qolbar-editor.hi-nonunon.workers.dev/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://qolbar-editor.hi-nonunon.workers.dev/">
+<meta property="og:site_name" content="QoLBar Editor">
+<meta property="og:title" content="QoLBar Editor">
+<meta property="og:description" content="An unofficial editor for the QoLBar Dalamud plugin: bulk-edit shortcuts, build condition sets, and line bars up to the pixel with a live preview. Nothing is uploaded.">
+<meta property="og:image" content="https://qolbar-editor.hi-nonunon.workers.dev/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="QoLBar Editor: a mock QoLBar bar with feature tags for live preview, pixel-exact placement, condition sets and import / export">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://qolbar-editor.hi-nonunon.workers.dev/og-image.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23d9b45f'/%3E%3Cstop offset='1' stop-color='%238a6a24'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='15' fill='url(%23g)'/%3E%3Ctext x='32' y='45' font-family='Segoe UI,Arial,sans-serif' font-size='38' font-weight='800' text-anchor='middle' fill='%231a1408'%3EQ%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500&display=swap">
+<script>try { const t = localStorage.getItem("qolbarunwrap.theme") || "system"; document.documentElement.dataset.theme = t === "system" ? (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark") : t; } catch {}</script>
+<link rel="stylesheet" href="css/editor.css">
+<link rel="stylesheet" href="css/game.css">
+</head>
+<body>
+<div id="app"></div>
+<div id="tip" class="tip"></div>
+<div class="toasts" id="toasts"></div>
+<input type="file" id="fileInput" accept=".json,application/json" multiple hidden>
+<!-- Plain scripts, in this order: they share one scope, like a single file. (ES modules would not load from file://) -->
+<script src="js/core.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/files.js"></script>
+<script src="js/app.js"></script>
+<script src="js/tree.js"></script>
+<script src="js/inspector.js"></script>
+<script src="js/views.js"></script>
+<script src="js/settings.js"></script>
+<script src="js/importexport.js"></script>
+<script src="js/preview.js"></script>
+<script src="js/tricks.js"></script>
+<script src="js/gamescreen.js"></script>
+<script src="js/fullscreen.js"></script>
+<script src="js/picker.js"></script>
+<script src="js/help.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

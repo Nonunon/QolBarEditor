@@ -32,15 +32,16 @@ The [full guide](docs/GUIDE.md) covers every feature and the file format details
 
 ## Development
 
-The editor is a single self-contained file, `QoLBarEditor.html`. Open it in a browser, or serve the folder with any static server. There's no build step and there are no dependencies.
+No framework, no dependencies. The source lives in `src/`: `index.html` is the page shell, `css/` has the editor's own styles and the game preview's, and `js/` has one plain script per area (`core.js` is the QoLBar file format, `ui.js` the shared widgets, then `tree.js`, `inspector.js`, `gamescreen.js`, `fullscreen.js`, `tricks.js`, `picker.js` and so on). They are ordinary scripts, not ES modules, loaded in the order `index.html` lists them and sharing one scope, so opening `src/index.html` straight from disk works too.
 
 ```
-npm test
+npm test          # round-trip checks of the file format core, against test/fixture.QoLBar.json
+npm run build     # dist/index.html: the same page with every stylesheet and script inlined into one file
 ```
 
-This runs round-trip checks against `test/fixture.QoLBar.json`. To check your own config: `node test.mjs path/to/QoLBar.json`.
+To check your own config: `node test.mjs path/to/QoLBar.json`.
 
-The site deploys itself: every push to `main` makes Cloudflare run `npm run build` (the editor becomes `dist/index.html`, next to the link-preview banner from `assets/`) and publish `dist/` with `wrangler.jsonc`.
+The site deploys itself: every push to `main` makes Cloudflare run `npm run build` and publish `dist/` with `wrangler.jsonc`, so the live site stays one self-contained page.
 
 ## Credits
 

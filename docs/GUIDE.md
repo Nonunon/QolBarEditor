@@ -4,7 +4,7 @@ An out-of-game editor for the [QoLBar](https://github.com/UnknownX7/QoLBar) Dala
 
 ## Use it
 
-Open `QoLBarEditor.html` (or the hosted copy) in any browser. It is a single file with nothing to install and no server. Web pages may only read files you hand them, and no browser lets a page write into `AppData`, where XIVLauncher keeps its configs, so it works like this everywhere:
+Open the hosted copy, or `src/index.html` from a download of the repository, in any browser. There is nothing to install and no server needed. Web pages may only read files you hand them, and no browser lets a page write into `AppData`, where XIVLauncher keeps its configs, so it works like this everywhere:
 
 1. **Open files...** (or drop) `QoLBar.json`, and `dalamudConfig.json` too if you want the preview to use your Dalamud style. Both at once works; the editor tells them apart. Every file the editor mentions (on the start page, in Settings, the preview panel, the toggle builder and the icon picker) shows its full path with a **Copy folder** button: paste that into the file picker's address bar, press Enter, and pick the file. For QoLBar.json that's `%AppData%\XIVLauncher\pluginConfigs`.
 2. Edit.
@@ -138,7 +138,10 @@ Keys: `Ctrl+S` save, `Ctrl+Z` / `Ctrl+Y` undo/redo, `Del` delete, `Ctrl+D` dupli
 
 ## Files
 
-- `QoLBarEditor.html`: the whole editor, one self-contained page. The part between the `CORE-START` and `CORE-END` markers (parsing, saving, formats) runs in Node too.
+- `src/index.html`: the page shell. It loads `src/css/editor.css` (the editor's look, both themes), `src/css/game.css` (the game preview, always in game colors) and the scripts in `src/js/`, in order.
+- `src/js/core.js`: the QoLBar file format (parsing, byte-identical saving, names, colors, hotkeys, conditions, import strings, readable JSON). It has no browser code, so the tests run it in Node.
+- `src/js/*.js`: the rest of the editor, one plain script per area, sharing one scope.
+- `scripts/build.mjs`: `npm run build` joins everything into one self-contained `dist/index.html` for the website.
 - `test.mjs`: round-trip checks, `node test.mjs [path]`. Byte-identical save, the readable format, in-game import strings, hotkey and color decoding, condition set references. Runs against `test/fixture.QoLBar.json` unless you pass your own config.
 - `test/fixture.QoLBar.json`: a sample config: QoLBar's own demo bar plus a few made-up bars and condition sets.
 - `docs/GUIDE.md`: this guide.
