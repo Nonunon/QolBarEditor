@@ -40,7 +40,7 @@ QoLBar is made by UnknownX7. This is an unofficial fan tool, not affiliated with
 
 The editor's layout math, file format handling, icon browser tabs and UI sheet list are based on reading [QoLBar's source](https://github.com/UnknownX7/QoLBar). The QoLBar name and anything taken from its source belong to its author.
 
-**To the author of QoLBar:** if you'd like anything changed, or this project taken down, please open an issue and I'll do it.
+**To the author of QoLBar:** if you'd like anything changed, or this project taken down, please open an issue.
 
 ## License
 
