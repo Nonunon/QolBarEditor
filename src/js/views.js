@@ -156,6 +156,57 @@ function renderConditions(){
   queueMicrotask(renderConditionsBody);
   return [left, right];
 }
+/* ---------- copying conditions between sets ---------- */
+let COND_CLIP = [];
+const CLIP_TAG = "qolbar-editor-conditions";
+async function copyConditions(conds){
+  COND_CLIP = structuredClone(conds);
+  try { await navigator.clipboard.writeText(JSON.stringify({[CLIP_TAG]: COND_CLIP})); } catch {}
+  toast(`Copied ${conds.length} condition${conds.length > 1 ? "s" : ""}. Use "Paste conditions" in any set.`);
+}
+async function clipboardConditions(){
+  try { const j = JSON.parse(await navigator.clipboard.readText()); if (Array.isArray(j?.[CLIP_TAG]) && j[CLIP_TAG].length) return j[CLIP_TAG]; } catch {}
+  return COND_CLIP;
+}
+// Insert copies of conds into set s at position at (default: the end). References to s itself are skipped.
+function insertConditions(s, conds, at = s.c.length){
+  const si = S.doc.CndSetCfgs.indexOf(s);
+  const ok = conds.filter(c => !(c.i === "cs" && c.a === si));
+  const skipped = conds.length - ok.length;
+  if (!ok.length) return toast("Nothing to add: a set cannot depend on itself.", "warn");
+  commit();
+  const fresh = ok.map(c => makeCond(structuredClone(c)));
+  if (at > 0) fresh[0].o = 0;
+  s.c.splice(at, 0, ...fresh);
+  touch(); renderConditionsBody(); paintSetList();
+  toast(`Added ${fresh.length} condition${fresh.length > 1 ? "s" : ""}` + (skipped ? ` (skipped ${skipped} that pointed at this set)` : ""));
+}
+async function pasteConditions(s, at){
+  const conds = await clipboardConditions();
+  if (!conds.length) return toast("No copied conditions to paste. Copy some first.", "warn");
+  insertConditions(s, conds, at);
+}
+// Pick any subset of conditions from the other sets and add them to s
+async function addFromSetModal(s, at = s.c.length){
+  const sets = S.doc.CndSetCfgs, picked = new Set(), others = sets.filter(x => x !== s && x.c.length);
+  if (!others.length) return toast("No other condition set has conditions to copy from.", "warn");
+  const sync = [];
+  const body = h("div", {style: {maxHeight: "60vh", overflow: "auto"}}, others.map(x => {
+    const rows = x.c.map((c, j) => {
+      const cb = checkbox(false, on => { on ? picked.add(c) : picked.delete(c); syncAll(); });
+      sync.push(() => cb.classList.toggle("on", picked.has(c)));
+      return h("div", {class: "cnd-row", style: {cursor: "pointer"}, onclick: () => cb.click()}, cb, h("span", {class: "faint", style: {width: "28px"}}, j ? OPERATORS[c.o] : "IF"), c.n ? h("span", {class: "chip not"}, "NOT") : null, h("span", null, condText({...c, n: false}, sets)));
+    });
+    const all = checkbox(false, on => { x.c.forEach(c => on ? picked.add(c) : picked.delete(c)); syncAll(); });
+    sync.push(() => all.classList.toggle("on", x.c.every(c => picked.has(c))));
+    return h("div", {class: "card", style: {marginBottom: "8px"}}, h("h3", {style: {display: "flex", gap: "8px", alignItems: "center"}}, all, "#" + (sets.indexOf(x) + 1) + "  " + (x.n || "(unnamed)")), rows);
+  }));
+  function syncAll(){ sync.forEach(f => f()); }
+  const ok = await modal({title: `Add conditions to "${s.n || "(unnamed)"}"`, body: h("div", null, h("div", {class: "help", style: {marginBottom: "8px"}}, "Tick conditions, or a set's box to take all of them. They are copied in, not linked."), body), wide: true,
+    buttons: [["Cancel", false], ["Add", () => picked.size ? true : (toast("Tick at least one condition first", "warn"), false), "primary"]]});
+  if (!ok) return;
+  insertConditions(s, others.flatMap(x => x.c.filter(c => picked.has(c))), at);
+}
 function presetMenu(anchor){
   const P = [
     ["Out of combat", () => makeSet({n: "Out of Combat", c: [makeCond({i: "cf", a: 26, n: true})]})],
@@ -184,6 +235,10 @@ function renderConditionsBody(){
   const changed = () => { touch(); paintSentence(); };
   const rerow = () => { touch(); renderConditionsBody(); };
   const rows = h("div");
+  const addMenu = anchor => openPop(anchor, h("div", {class: "pop"}, h("div", {class: "pop-list"},
+    h("div", {class: "opt", onclick: () => { closePop(); addFromSetModal(s); }}, "Pick from other sets..."),
+    h("div", {class: "opt", onclick: () => { closePop(); pasteConditions(s); }}, "Paste copied conditions"),
+    h("div", {class: "opt" + (s.c.length ? "" : " disabled"), onclick: () => { closePop(); if (s.c.length) copyConditions(s.c); }}, "Copy all conditions in this set"))));
   s.c.forEach((c, j) => {
     const def = COND_BY_ID[c.i];
     rows.append(withCtx(h("div", {class: "cnd-row"},
@@ -211,7 +266,8 @@ function renderConditionsBody(){
         h("button", {class: "btn sm", onclick: () => mutate(() => { const c = structuredClone(s); c.n += " (copy)"; sets.push(c); S.selSet = sets.length - 1; })}, "Duplicate"),
         h("button", {class: "btn sm danger", tip: "Delete set", onclick: async () => { if (await confirmBox("Delete condition set", `Delete "${s.n}"? ${u.bars.length} bar(s) using it become always shown, and "Condition Set" rows pointing at it are removed. Later sets are renumbered automatically.`, "Delete", "danger")) mutate(() => removeSet(S.doc, i)); }}, svg(ICONS.trash)))),
     h("div", {class: "card"}, h("h3", null, "Reads as"), sentence),
-    h("div", {class: "card"}, h("h3", null, "Conditions", h("span", {class: "actions"}, h("button", {class: "btn sm primary", onclick: () => { commit(); s.c.push(makeCond({i: "cf", a: 26})); rerow(); }}, svg(ICONS.plus), "Add condition"))),
+    h("div", {class: "card"}, h("h3", null, "Conditions", h("span", {class: "actions"}, h("button", {class: "btn sm", tip: "Copy conditions from other sets, or paste ones you copied", onclick: e => addMenu(e.currentTarget)}, "Add from..."),
+        " ", h("button", {class: "btn sm primary", onclick: () => { commit(); s.c.push(makeCond({i: "cf", a: 26})); rerow(); }}, svg(ICONS.plus), "Add condition"))),
       rows, !s.c.length ? h("div", {class: "faint"}, "An empty set is always true.") : null,
       h("div", {class: "help", style: {marginTop: "10px"}}, "AND: both true · OR: either true · EQUALS: both the same · XOR: exactly one true. Each operator combines the result so far with its own row.")),
     h("div", {class: "card"}, h("h3", null, "Used by"),
