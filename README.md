@@ -1,7 +1,6 @@
 # QoLBar Editor
 
-[![AI-DECLARATION: auto](https://img.shields.io/badge/%E4%B7%BC%20AI--DECLARATION-auto-ede9fe?labelColor=ede9fe#gh-light-mode-only)](AI-DECLARATION.md)
-[![AI-DECLARATION: auto](https://img.shields.io/badge/%E4%B7%BC%20AI--DECLARATION-auto-2e1065?labelColor=2e1065#gh-dark-mode-only)](AI-DECLARATION.md)
+[![AI-DECLARATION: auto](https://img.shields.io/badge/%E4%B7%BC%20AI--DECLARATION-auto-ede9fe?labelColor=ede9fe)](AI-DECLARATION.md)
 
 A browser-based editor for the config of [QoLBar](https://github.com/UnknownX7/QoLBar), the FFXIV Dalamud plugin. Edit your bars, shortcuts and condition sets outside the game, with a live preview that matches the plugin to the pixel, and save back in the exact format QoLBar writes.
 
